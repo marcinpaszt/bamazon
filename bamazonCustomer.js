@@ -20,7 +20,7 @@ var connection = mysql.createConnection({
 //Connect to the mysql server and sql database
 connection.connect(function (err) {
     if (err) throw err;
-    //Run the start function after the connection is made to prompt the user
+    //Run the start function 
     readProducts();
 });
 
@@ -52,7 +52,7 @@ function readProducts() {
 }
 
 
-//Function which prompts the user for what action they should take
+//Function check to selest user
 function runSearch() {
     inquirer.prompt({
         name: "action",
@@ -83,7 +83,7 @@ function runSearch() {
 }
 
 function buyBAMazon() {
-    //Prompt for info about the item being put up for auction
+    //Prompt for item id and quantity
     inquirer.prompt([
         {
             name: "item",
@@ -99,12 +99,12 @@ function buyBAMazon() {
     ])
 
         .then(function (answer) {
-            //Item they are buying
+            //Item user might purchase
             var whatBuying = answer.item;
             //Makes it a number
             var howMany = answer.units;
 
-            //Query db to make sure the item ID exists and is in stock
+            //Check db to see if id exists
             var queryStr = "SELECT * FROM products WHERE ?";
 
             connection.query(queryStr, { product_name: whatBuying }, function (err, data) {
@@ -144,7 +144,7 @@ function buyBAMazon() {
         });
 }
 
-//Asks if they would like to purchase another item
+//Another purchase?
 function askAgain() {
     inquirer.prompt([{
         type: "confirm",
